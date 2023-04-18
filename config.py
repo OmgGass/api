@@ -1,11 +1,20 @@
-class DevelopmenteConfig():
-    Debug = True
-    MYSQL_HOST = 'localhost'
-    MYSQL_USER = 'admin'
-    MYSQL_PASSWORD = '123456'
-    MYSQL_DB = 'api_flask'
+from flask_sqlalchemy import SQLAlchemy
+class Config(object):
+    DEBUG = False
+    TESTING = False
+    SQLALCHEMY_TRACK_MODIFICATIONS = False
 
+class ProductionConfig(Config):
+    SQLALCHEMY_DATABASE_URI = 'sqlite:///database.db'
+
+class DevelopmentConfig(Config):
+    DEBUG = True
+    SQLALCHEMY_DATABASE_URI = 'sqlite:///database.db'
 
 config = {
-    "development" : DevelopmenteConfig
+    'production': ProductionConfig,
+    'development': DevelopmentConfig
+
 }
+
+db = SQLAlchemy()

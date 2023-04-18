@@ -2,12 +2,14 @@ from flask import Flask, jsonify, request
 from flask_sqlalchemy import SQLAlchemy
 from flask_marshmallow import Marshmallow
 from marshmallow_sqlalchemy import SQLAlchemyAutoSchema
-from config import config
+from config import config, db
+from flask_migrate import Migrate
 
 app = Flask(__name__)
 app.config.from_object(config['development'])
-app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///database.db'
+app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///database.sql'
 db = SQLAlchemy(app)
+migrate = Migrate(app, db)
 ma = Marshmallow(app)
 
 class Usuario1(db.Model):
