@@ -90,7 +90,17 @@ def excluir_usuario(id):
     db.session.commit()
     return jsonify({'mensagem': 'Usuário excluído com sucesso!'})
 
-
+#lista o usuário e o cartão vinculado
+@app.route('/usuario/<int:user_id>/cards', methods=['GET'])
+def listar_cards_usuario(user_id):
+    usuario = Usuario1.query.get_or_404(user_id)
+    cards = CardSite1.query.filter_by(user_id=user_id).all()
+    usuario_schema = UsuarioSchema()
+    cards_schema = CardCschema(many=True)
+    return {
+        'usuario': usuario_schema.dump(usuario),
+        'cards': cards_schema.dump(cards)
+    }
 
 #cartão
 @app.route('/cards/<int:user_id>', methods=['POST'])
